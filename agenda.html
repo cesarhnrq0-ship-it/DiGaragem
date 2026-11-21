@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agendar · Barbearia Di Garagem</title>
+<meta name="description" content="Agende seu horário na Barbearia Di Garagem em Cidade Tiradentes: escolha o serviço, o barbeiro e o horário.">
+<meta name="theme-color" content="#0b0b0c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23ff7a1a'/%3E%3Ctext x='32' y='44' font-family='Arial Black,Arial' font-weight='900' font-size='30' text-anchor='middle' fill='%23111'%3EDG%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0b0c;--bg2:#121214;--card:#17171a;--line:#26262b;--txt:#f4f4f5;--mut:#a1a1aa;--gold:#ff7a1a;--gold2:#ffa15c;--red:#ef4444;--green:#22c55e;--r:16px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font-family:Inter,system-ui,sans-serif;line-height:1.5;min-height:100vh}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+input{font:inherit}
+.demo{background:var(--gold);color:#111;text-align:center;font-size:12.5px;font-weight:700;padding:7px 12px}
+header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(11,11,12,.94);backdrop-filter:blur(10px);z-index:10}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.logo b{font-family:Anton;font-size:26px;color:var(--gold);line-height:1}
+.logo span{font-weight:700;letter-spacing:.12em;font-size:12px;text-transform:uppercase}
+.tabs{display:flex;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px}
+.tabs button{padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600;color:var(--mut)}
+.tabs button.on{background:var(--gold);color:#111}
+main{max-width:640px;margin:0 auto;padding:24px 18px 80px}
+h1{font-family:Anton;font-weight:400;font-size:34px;letter-spacing:.01em;line-height:1.05}
+.sub{color:var(--mut);font-size:14.5px;margin:6px 0 22px}
+.steps{display:flex;gap:6px;margin-bottom:22px}
+.steps i{flex:1;height:4px;border-radius:4px;background:var(--line)}
+.steps i.on{background:var(--gold)}
+.lbl{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700;margin:22px 0 10px}
+.list{display:grid;gap:10px}
+.opt{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:15px 16px;text-align:left;transition:.15s;width:100%}
+.opt:hover{border-color:#3a3a42}
+.opt.on{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+.opt b{display:block;font-size:15.5px}
+.opt small{color:var(--mut);font-size:13px}
+.opt .pr{font-family:Anton;font-size:22px;color:var(--gold2);white-space:nowrap}
+.bb{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bb .opt{flex-direction:column;align-items:flex-start;justify-content:flex-start}
+.av{width:46px;height:46px;border-radius:50%;background:var(--gold);color:#111;display:grid;place-items:center;font-family:Anton;font-size:22px;margin-bottom:8px}
+.days{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+.days::-webkit-scrollbar{display:none}
+.day{flex:none;width:64px;padding:10px 0;border-radius:14px;background:var(--card);border:1px solid var(--line);text-align:center}
+.day small{display:block;font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.08em}
+.day b{font-size:20px}
+.day.on{background:var(--gold);color:#111;border-color:var(--gold)}
+.day.on small{color:#111}
+.day.off{opacity:.35;pointer-events:none}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.slot{padding:11px 0;border-radius:12px;background:var(--card);border:1px solid var(--line);font-weight:600;font-size:14.5px}
+.slot.on{background:var(--gold);color:#111;border-color:var(--gold)}
+.slot:disabled{opacity:.25;text-decoration:line-through;cursor:not-allowed}
+.empty{color:var(--mut);font-size:14px;padding:14px;border:1px dashed var(--line);border-radius:12px;text-align:center}
+.field{display:block;margin-bottom:12px}
+.field span{display:block;font-size:13px;color:var(--mut);margin-bottom:6px}
+.field input{width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 14px;color:var(--txt);outline:none}
+.field input:focus{border-color:var(--gold)}
+.sum{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin:18px 0;font-size:14.5px}
+.sum div{display:flex;justify-content:space-between;padding:5px 0}
+.sum div span:first-child{color:var(--mut)}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;padding:16px;border-radius:999px;background:var(--gold);color:#111;font-weight:800;font-size:15.5px;margin-top:20px;transition:.15s}
+.btn:hover{background:var(--gold2)}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line);margin-top:10px}
+.back{color:var(--mut);font-size:14px;margin-bottom:14px;display:inline-flex;gap:6px}
+.ok{text-align:center;padding-top:20px}
+.ok .ic{width:72px;height:72px;border-radius:50%;background:rgba(34,197,94,.15);color:var(--green);display:grid;place-items:center;margin:0 auto 16px;font-size:36px}
+.code{display:inline-block;font-family:Anton;font-size:30px;letter-spacing:.12em;color:var(--gold2);background:var(--card);border:1px dashed var(--gold);border-radius:12px;padding:8px 18px;margin:10px 0}
+.hint{color:var(--mut);font-size:13px}
+/* painel */
+.login{max-width:360px;margin:30px auto 0;text-align:center}
+.who{display:flex;gap:8px;margin-bottom:16px}
+.who button{flex:1;padding:12px;border-radius:12px;background:var(--card);border:1px solid var(--line);font-weight:700}
+.who button.on{background:var(--gold);color:#111;border-color:var(--gold)}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0 4px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+.kpi b{font-family:Anton;font-size:24px;display:block;color:var(--gold2)}
+.kpi span{font-size:12px;color:var(--mut)}
+.ag{display:grid;gap:8px}
+.it{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.it .t{font-family:Anton;font-size:20px;width:58px;color:var(--gold2)}
+.it .d{flex:1;min-width:0}
+.it .d b{display:block;font-size:14.5px}
+.it .d small{color:var(--mut);font-size:12.5px}
+.it.blk{background:repeating-linear-gradient(135deg,#17171a 0 10px,#1c1c20 10px 20px)}
+.it.blk .t{color:var(--mut)}
+.x{font-size:12.5px;color:var(--red);font-weight:600;padding:6px 8px}
+.wa{font-size:12.5px;color:var(--green);font-weight:600;padding:6px 8px;text-decoration:none}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(80px);background:#fff;color:#111;font-weight:600;font-size:14px;padding:12px 18px;border-radius:999px;transition:.3s;opacity:0;z-index:50;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.hide{display:none!important}
+.lnk{display:block;margin:22px auto 0;color:var(--mut);font-size:14px;text-decoration:underline}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.push,.toast,.opt,.btn{transition:none}}
+/* notificação no celular (simulada na prévia) */
+.push{position:fixed;left:50%;top:10px;width:min(94vw,420px);transform:translate(-50%,-140%);transition:transform .45s cubic-bezier(.2,.9,.3,1.2);z-index:60;background:rgba(40,40,44,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start;box-shadow:0 18px 40px rgba(0,0,0,.55);cursor:pointer}
+.push.show{transform:translate(-50%,0)}
+.push .pi{width:38px;height:38px;border-radius:10px;background:var(--gold);color:#111;display:grid;place-items:center;font-family:Anton;font-size:17px;flex:none}
+.push .pb{flex:1;min-width:0;font-size:13.5px;line-height:1.35}
+.push .ph{display:flex;justify-content:space-between;font-size:11.5px;color:#b4b4bb;margin-bottom:2px}
+.push .ph b{color:#e4e4e7;font-weight:600;letter-spacing:.02em}
+.push .pt{font-weight:700}
+.push .pc{position:absolute;left:0;right:0;top:100%;text-align:center;font-size:11.5px;color:var(--gold2);padding-top:6px;font-weight:600;text-shadow:0 1px 4px #000}
+.btn.zap{background:#25d366;color:#08240f}
+.btn.zap:hover{background:#3be37a}
+.notif{display:flex;gap:10px;align-items:center;background:rgba(255,122,26,.08);border:1px solid rgba(255,122,26,.35);border-radius:14px;padding:11px 13px;font-size:13px;margin:4px 0 6px}
+.notif b{color:var(--gold2)}
+.new{font-size:10px;font-weight:800;background:var(--green);color:#04210e;border-radius:6px;padding:2px 6px;margin-left:6px;vertical-align:2px}
+</style>
+</head>
+<body>
+<div class="demo">PRÉVIA DE DEMONSTRAÇÃO · agendamentos e preços de teste</div>
+<header>
+ <a class="logo" href="./"><b>DG</b><span>Di Garagem</span></a>
+ <div class="tabs"><button id="tCli" class="on">Cliente</button><button id="tAdm">Painel</button></div>
+</header>
+
+<main id="cli"></main>
+<main id="adm" class="hide"></main>
+<div class="toast" id="toast"></div>
+<div class="push" id="push" role="status" aria-live="polite"><div class="pi">DG</div><div class="pb"><div class="ph"><b>DI GARAGEM</b><span>agora</span></div><div class="pt" id="pushT"></div><div id="pushM"></div></div><div class="pc" id="pushC"></div></div>
+
+<script>
+/* PREÇOS DE EXEMPLO: trocar pela lista da barbearia (mesma ordem do index.html) */
+const SV=[['Corte',35,30],['Corte + barba',60,60],['Barba',30,30],['Corte + sobrancelha',45,45],['Sobrancelha',10,15],['Corte infantil',30,30]];
+const BARB=[{id:'d',n:'Di',d:'Denilson, o Di da casa'},{id:'g',n:'Gabriel',d:'Corte caprichado'}];
+/* ter-sáb 08:00-21:30, domingo 09:00-14:00, segunda fechado */
+const HRS={0:[9,14],1:null,2:[8,21.5],3:[8,21.5],4:[8,21.5],5:[8,21.5],6:[8,21.5]};
+const WD=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const PIN='4141';
+const SHOP_WA='5511985213762';
+/* Aviso automático no celular dos barbeiros (app ntfy, tópico abaixo) */
+const NTFY_TOPIC='digaragem-ffa964411809';
+function avisar(b,tipo){
+ try{const d=new Date(b.date+'T12:00');const bn=BARB.find(x=>x.id===b.bar).n;
+  const quando=WD[d.getDay()]+' '+pad(d.getDate())+'/'+pad(d.getMonth()+1)+' às '+b.t;
+  const novo=tipo!=='cancel';
+  fetch('https://ntfy.sh/',{method:'POST',keepalive:true,body:JSON.stringify({topic:NTFY_TOPIC,
+   title:novo?'Novo horário com '+bn:'Horário desmarcado ('+bn+')',
+   message:b.name+' · '+SV[b.sv][0]+' · '+quando+(novo&&b.tel?'\nWhatsApp: '+b.tel:''),
+   tags:[novo?'barber':'x'],priority:novo?4:3})}).catch(()=>{});
+ }catch(e){}
+}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+/* Mostra como a notificação chega no celular do barbeiro (na versão final vai de verdade pro celular dele) */
+function pushNotify(b){
+ const d=new Date(b.date+'T12:00');const bn=BARB.find(x=>x.id===b.bar).n;
+ $('#pushT').textContent='💈 Novo horário com '+bn;
+ $('#pushM').textContent=b.name+' · '+SV[b.sv][0]+' · '+WD[d.getDay()]+' '+pad(d.getDate())+'/'+pad(d.getMonth()+1)+' às '+b.t;
+ $('#pushC').textContent='↑ Assim chega no celular do '+bn+' na hora';
+ const p=$('#push');p.classList.add('show');clearTimeout(p._t);p._t=setTimeout(()=>p.classList.remove('show'),6500);
+ p.onclick=()=>p.classList.remove('show');
+}
+const KEY='demo_digaragem_v1';
+const $=s=>document.querySelector(s);
+const pad=n=>String(n).padStart(2,'0');
+const ymd=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const toMin=t=>{const[a,b]=t.split(':');return +a*60+ +b};
+const toT=m=>pad(Math.floor(m/60))+':'+pad(m%60);
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),2200)}
+
+let mem=null;
+function load(){if(mem)return mem;try{mem=JSON.parse(localStorage.getItem(KEY))}catch(e){}if(!mem)mem=seed();return mem}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(mem))}catch(e){}}
+function seed(){
+ const b=[];const names=['Lucas','Matheus','Felipe','Bruno','Diego','Rafael','Thiago','Gustavo','Pedro','André'];
+ let k=0;const now=new Date();
+ for(let i=0;i<5;i++){const d=new Date(now);d.setDate(d.getDate()+i);if(!HRS[d.getDay()])continue;const ds=ymd(d);
+  [['d',11,0],['d',14,1],['d',17,3],['g',10,0],['g',15,1],['g',18,0]].forEach(([bid,h,s],j)=>{if((i+j)%3===0)return;b.push({id:'S'+(k++),code:rc(),bar:bid,date:ds,t:toT((h+(HRS[d.getDay()][0]>h?1:0))*60),sv:s,name:names[(i*3+j)%names.length],tel:'(11) 9'+(1000+((i*7+j*13)%9000))+'-'+(1000+((i*11+j)%9000)),demo:1})})}
+ return {book:b,blocks:[]}
+}
+function rc(){const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<5;i++)s+=c[Math.floor(Math.random()*c.length)];return s}
+
+/* --- disponibilidade --- */
+function busy(bar,date){
+ const db=load();const out=[];
+ db.book.filter(x=>x.bar===bar&&x.date===date).forEach(x=>{const s=toMin(x.t);out.push([s,s+SV[x.sv][2]])});
+ db.blocks.filter(x=>x.bar===bar&&x.date===date).forEach(x=>{const s=toMin(x.t);out.push([s,s+30])});
+ return out}
+function slots(bar,date,dur){
+ const d=new Date(date+'T12:00');const h=HRS[d.getDay()];if(!h)return[];
+ const bz=busy(bar,date);const res=[];const now=new Date();const isToday=date===ymd(now);const nowM=now.getHours()*60+now.getMinutes();
+ for(let m=h[0]*60;m+dur<=h[1]*60;m+=30){
+  const free=!bz.some(([a,b])=>m<b&&m+dur>a)&&!(isToday&&m<=nowM+20);
+  res.push([toT(m),free])}
+ return res}
+
+/* --- fluxo do cliente --- */
+const st={step:0,sv:null,bar:null,date:null,t:null};
+(function(){const q=new URLSearchParams(location.search);const sv=parseInt(q.get('s'),10),b=q.get('b');
+ if(BARB.some(x=>x.id===b))st.bar=b;
+ if(sv>=0&&sv<SV.length){st.sv=sv;st.step=st.bar?2:1}})();
+function days(){const a=[];const d=new Date();for(let i=0;a.length<10&&i<21;i++){const x=new Date(d);x.setDate(d.getDate()+i);a.push(x)}return a}
+function stepsBar(n){return '<div class="steps">'+[0,1,2,3].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')+'</div>'}
+function renderCli(){
+ const c=$('#cli');
+ if(st.step===0){
+  c.innerHTML=`${stepsBar(0)}<h1>Agende seu horário</h1><p class="sub">Escolha o serviço, o barbeiro e o horário. Leva menos de 1 minuto.</p>
+  <div class="lbl">1 · Serviço</div><div class="list">${SV.map((s,i)=>`<button class="opt ${st.sv===i?'on':''}" data-sv="${i}"><span><b>${s[0]}</b><small>${s[2]>=60?(s[2]/60)+'h':s[2]+' min'}</small></span><span class="pr">R$ ${s[1]}</span></button>`).join('')}</div><button class="lnk" id="cx0">Já agendou? Desmarcar com o código</button>`;
+  c.querySelectorAll('[data-sv]').forEach(b=>b.onclick=()=>{st.sv=+b.dataset.sv;st.step=st.bar?2:1;st.date=null;st.t=null;renderCli();scrollTo(0,0)});
+  $('#cx0').onclick=cancelFlow;
+ }else if(st.step===1){
+  c.innerHTML=`<button class="back" id="bk">← Voltar</button>${stepsBar(1)}<h1>Com quem?</h1><p class="sub">${SV[st.sv][0]} · R$ ${SV[st.sv][1]}</p>
+  <div class="bb">${BARB.map(b=>`<button class="opt ${st.bar===b.id?'on':''}" data-b="${b.id}"><div class="av">${b.n[0]}</div><b>${b.n}</b><small>${b.d}</small></button>`).join('')}</div>`;
+  $('#bk').onclick=()=>{st.step=0;renderCli()};
+  c.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{st.bar=b.dataset.b;st.date=null;st.t=null;st.step=2;renderCli();scrollTo(0,0)});
+ }else if(st.step===2){
+  const ds=days();if(!st.date){const f=ds.find(d=>HRS[d.getDay()]);st.date=f?ymd(f):null}
+  const sl=st.date?slots(st.bar,st.date,SV[st.sv][2]):[];const bn=BARB.find(b=>b.id===st.bar).n;
+  c.innerHTML=`<button class="back" id="bk">← Voltar</button>${stepsBar(2)}<h1>Dia e horário</h1><p class="sub">${SV[st.sv][0]} com ${bn}</p>
+  <div class="lbl">Dia</div><div class="days">${ds.map(d=>`<button class="day ${HRS[d.getDay()]?'':'off'} ${st.date===ymd(d)?'on':''}" data-d="${ymd(d)}"><small>${WD[d.getDay()]}</small><b>${d.getDate()}</b></button>`).join('')}</div>
+  <div class="lbl">Horários livres do ${bn}</div>
+  ${sl.some(s=>s[1])?`<div class="slots">${sl.map(([t,f])=>`<button class="slot ${st.t===t?'on':''}" data-t="${t}" ${f?'':'disabled'}>${t}</button>`).join('')}</div>`:'<div class="empty">Sem horários livres nesse dia. Tenta outro dia 👆</div>'}
+  <button class="btn" id="nx" ${st.t?'':'disabled'}>Continuar</button>`;
+  $('#bk').onclick=()=>{st.step=1;renderCli()};
+  c.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{st.date=b.dataset.d;st.t=null;renderCli()});
+  c.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{st.t=b.dataset.t;renderCli()});
+  $('#nx').onclick=()=>{st.step=3;renderCli();scrollTo(0,0)};
+ }else if(st.step===3){
+  const d=new Date(st.date+'T12:00');const bn=BARB.find(b=>b.id===st.bar).n;
+  c.innerHTML=`<button class="back" id="bk">← Voltar</button>${stepsBar(3)}<h1>Seus dados</h1><p class="sub">Pra gente confirmar seu horário.</p>
+  <label class="field"><span>Nome</span><input id="nm" placeholder="Seu nome" autocomplete="name"></label>
+  <label class="field"><span>WhatsApp</span><input id="tl" placeholder="(11) 90000-0000" inputmode="tel" autocomplete="tel"></label>
+  <div class="sum"><div><span>Serviço</span><b>${SV[st.sv][0]}</b></div><div><span>Barbeiro</span><b>${bn}</b></div><div><span>Data</span><b>${WD[d.getDay()]}, ${pad(d.getDate())}/${pad(d.getMonth()+1)} às ${st.t}</b></div><div><span>Valor</span><b>R$ ${SV[st.sv][1]}</b></div></div>
+  <button class="btn" id="cf">Confirmar agendamento</button>`;
+  $('#tl').oninput=e=>{let v=e.target.value.replace(/\D/g,'').slice(0,11);e.target.value=v.length>10?`(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`:v.length>6?`(${v.slice(0,2)}) ${v.slice(2,6)}-${v.slice(6)}`:v.length>2?`(${v.slice(0,2)}) ${v.slice(2)}`:v};
+  $('#bk').onclick=()=>{st.step=2;renderCli()};
+  $('#cf').onclick=()=>{
+   if(st.saving)return;
+   const nm=$('#nm').value.trim(),tl=$('#tl').value.trim();
+   if(nm.length<2||tl.replace(/\D/g,'').length<10){toast('Preenche nome e WhatsApp');return}
+   if(!slots(st.bar,st.date,SV[st.sv][2]).some(([t,f])=>t===st.t&&f)){toast('Esse horário acabou de ser pego, escolhe outro');st.step=2;st.t=null;renderCli();return}
+   st.saving=1;const db=load();const code=rc();const nb={id:'B'+Date.now(),code,bar:st.bar,date:st.date,t:st.t,sv:st.sv,name:nm,tel:tl,novo:1};db.book.push(nb);save();
+   st.saving=0;st.code=code;st.name=nm;st.step=4;renderCli();scrollTo(0,0);avisar(nb,'novo');setTimeout(()=>pushNotify(nb),900)};
+ }else if(st.step===4){
+  const d=new Date(st.date+'T12:00');const bn=BARB.find(b=>b.id===st.bar).n;
+  c.innerHTML=`<div class="ok"><div class="ic">✓</div><h1>Horário confirmado!</h1><p class="sub">${SV[st.sv][0]} com ${bn}<br>${WD[d.getDay()]}, ${pad(d.getDate())}/${pad(d.getMonth()+1)} às ${st.t}</p>
+  <p class="hint">Seu código pra desmarcar, se precisar:</p><div class="code">${st.code}</div>
+  <p class="hint" style="color:var(--green);font-weight:600">✓ A barbearia já foi avisada do seu horário</p>
+  <button class="btn ghost" id="nv">Fazer outro agendamento</button><button class="btn ghost" id="cx">Desmarcar com código</button>
+  <p class="hint" style="margin-top:18px">Dica da prévia: abre a aba <b>Painel</b> lá em cima (senha ${PIN}) pra ver esse horário na agenda do ${bn}.</p></div>`;
+  $('#nv').onclick=()=>{Object.assign(st,{step:0,sv:null,bar:null,date:null,t:null});renderCli()};
+  $('#cx').onclick=cancelFlow;
+ }
+}
+function cancelFlow(){
+ const c=$('#cli');
+ c.innerHTML=`<button class="back" id="bk">← Voltar</button><h1>Desmarcar horário</h1><p class="sub">Digita o código que apareceu quando você agendou.</p>
+ <label class="field"><span>Código</span><input id="cd" placeholder="Ex: K7P2Q" style="text-transform:uppercase;letter-spacing:.15em"></label>
+ <button class="btn" id="go">Desmarcar</button>`;
+ $('#bk').onclick=()=>{Object.assign(st,{step:0});renderCli()};
+ $('#go').onclick=()=>{const v=$('#cd').value.trim().toUpperCase();const db=load();const i=db.book.findIndex(x=>x.code===v);
+  if(i<0){toast('Código não encontrado');return}avisar(db.book[i],'cancel');db.book.splice(i,1);save();toast('Horário desmarcado, liberou pra outro cliente');Object.assign(st,{step:0,sv:null,bar:null,date:null,t:null});renderCli()};
+}
+
+/* --- painel --- */
+const ad={ok:false,bar:'d',date:ymd(new Date())};
+function renderAdm(){
+ const c=$('#adm');
+ if(!ad.ok){
+  c.innerHTML=`<div class="login"><h1>Painel da Di Garagem</h1><p class="sub">Área só dos barbeiros.</p>
+  <label class="field" style="text-align:left"><span>Senha</span><input id="pw" type="password" inputmode="numeric" placeholder="••••"></label>
+  <button class="btn" id="en">Entrar</button><p class="hint" style="margin-top:14px">Na prévia a senha é <b>${PIN}</b></p></div>`;
+  const go=()=>{if($('#pw').value===PIN){ad.ok=true;renderAdm()}else toast('Senha errada')};
+  $('#en').onclick=go;$('#pw').onkeydown=e=>{if(e.key==='Enter')go()};return}
+ const db=load();const ds=days();
+ if(!HRS[new Date(ad.date+'T12:00').getDay()]){const f=ds.find(d=>HRS[d.getDay()]);if(f)ad.date=ymd(f)}
+ const items=[...db.book.filter(x=>x.bar===ad.bar&&x.date===ad.date).map(x=>({...x,k:'b'})),...db.blocks.filter(x=>x.bar===ad.bar&&x.date===ad.date).map(x=>({...x,k:'x'}))].sort((a,b)=>toMin(a.t)-toMin(b.t));
+ const bk=items.filter(i=>i.k==='b');const fat=bk.reduce((s,i)=>s+SV[i.sv][1],0);
+ const free=slots(ad.bar,ad.date,30).filter(s=>s[1]);
+ const bn=BARB.find(b=>b.id===ad.bar).n;
+ c.innerHTML=`<h1>Agenda</h1><p class="sub">Escolhe o barbeiro e o dia.</p>
+ <div class="notif">🔔<span><b>Avisos no celular ativados.</b> Cada cliente que marcar, chega uma notificação na hora pro barbeiro.</span></div>
+ <div class="who">${BARB.map(b=>`<button class="${ad.bar===b.id?'on':''}" data-w="${b.id}">${b.n}</button>`).join('')}</div>
+ <div class="days">${ds.map(d=>`<button class="day ${HRS[d.getDay()]?'':'off'} ${ad.date===ymd(d)?'on':''}" data-d="${ymd(d)}"><small>${WD[d.getDay()]}</small><b>${d.getDate()}</b></button>`).join('')}</div>
+ <div class="kpis"><div class="kpi"><b>${bk.length}</b><span>clientes</span></div><div class="kpi"><b>R$${fat}</b><span>previsto no dia</span></div><div class="kpi"><b>${free.length}</b><span>horários livres</span></div></div>
+ <div class="lbl">Dia do ${bn}</div>
+ <div class="ag">${items.length?items.map(i=>i.k==='b'?`<div class="it"><div class="t">${i.t}</div><div class="d"><b>${esc(i.name)}${i.novo?'<span class="new">NOVO</span>':''}</b><small>${SV[i.sv][0]} · R$ ${SV[i.sv][1]}</small></div><a class="wa" href="https://wa.me/55${i.tel.replace(/\D/g,'')}" target="_blank" rel="noopener">Zap</a><button class="x" data-del="${i.id}">Cancelar</button></div>`:`<div class="it blk"><div class="t">${i.t}</div><div class="d"><b>Bloqueado</b><small>Horário fechado pelo barbeiro</small></div><button class="x" data-ub="${i.id}">Liberar</button></div>`).join(''):'<div class="empty">Nenhum cliente marcado ainda nesse dia.</div>'}</div>
+ <div class="lbl">Bloquear horário (folga, almoço…)</div>
+ ${free.length?`<div class="slots">${free.map(([t])=>`<button class="slot" data-blk="${t}">${t}</button>`).join('')}</div>`:'<div class="empty">Sem horários livres pra bloquear.</div>'}
+ <button class="btn ghost" id="out">Sair do painel</button>`;
+ c.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{ad.bar=b.dataset.w;renderAdm()});
+ c.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{ad.date=b.dataset.d;renderAdm()});
+ c.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{const db=load();db.book=db.book.filter(x=>x.id!==b.dataset.del);save();toast('Agendamento cancelado');renderAdm()});
+ c.querySelectorAll('[data-ub]').forEach(b=>b.onclick=()=>{const db=load();db.blocks=db.blocks.filter(x=>x.id!==b.dataset.ub);save();toast('Horário liberado');renderAdm()});
+ c.querySelectorAll('[data-blk]').forEach(b=>b.onclick=()=>{const db=load();db.blocks.push({id:'X'+Date.now(),bar:ad.bar,date:ad.date,t:b.dataset.blk});save();toast('Horário bloqueado, cliente não consegue marcar');renderAdm()});
+ $('#out').onclick=()=>{ad.ok=false;renderAdm()};
+}
+
+$('#tCli').onclick=()=>{$('#tCli').classList.add('on');$('#tAdm').classList.remove('on');$('#cli').classList.remove('hide');$('#adm').classList.add('hide');renderCli()};
+$('#tAdm').onclick=()=>{$('#tAdm').classList.add('on');$('#tCli').classList.remove('on');$('#adm').classList.remove('hide');$('#cli').classList.add('hide');renderAdm()};
+renderCli();
+</script>
+</body>
+</html>
