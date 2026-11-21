@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Agendar · Barbearia Di Garagem</title>
-<meta name="description" content="Agende seu horário na Barbearia Di Garagem em Cidade Tiradentes: escolha o serviço, o barbeiro e o horário.">
+<title>Agendar · Di Garagem Barbearia</title>
+<meta name="description" content="Agende seu horário na Di Garagem Barbearia em Cidade Tiradentes: escolha o serviço, o barbeiro e o horário.">
 <meta name="theme-color" content="#0b0b0c">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23ff7a1a'/%3E%3Ctext x='32' y='44' font-family='Arial Black,Arial' font-weight='900' font-size='30' text-anchor='middle' fill='%23111'%3EDG%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -112,7 +112,7 @@ h1{font-family:Anton;font-weight:400;font-size:34px;letter-spacing:.01em;line-he
 </style>
 </head>
 <body>
-<div class="demo">PRÉVIA DE DEMONSTRAÇÃO · agendamentos e preços de teste</div>
+<div class="demo">PRÉVIA DE DEMONSTRAÇÃO · os agendamentos aqui são de teste</div>
 <header>
  <a class="logo" href="./"><b>DG</b><span>Di Garagem</span></a>
  <div class="tabs"><button id="tCli" class="on">Cliente</button><button id="tAdm">Painel</button></div>
@@ -124,8 +124,8 @@ h1{font-family:Anton;font-weight:400;font-size:34px;letter-spacing:.01em;line-he
 <div class="push" id="push" role="status" aria-live="polite"><div class="pi">DG</div><div class="pb"><div class="ph"><b>DI GARAGEM</b><span>agora</span></div><div class="pt" id="pushT"></div><div id="pushM"></div></div><div class="pc" id="pushC"></div></div>
 
 <script>
-/* PREÇOS DE EXEMPLO: trocar pela lista da barbearia (mesma ordem do index.html) */
-const SV=[['Corte',35,30],['Corte + barba',60,60],['Barba',30,30],['Corte + sobrancelha',45,45],['Sobrancelha',10,15],['Corte infantil',30,30]];
+/* mesma ordem do index.html; minutos são estimativa até a barbearia confirmar */
+const SV=[['Corte',35,30],['Barba',35,30],['Sobrancelha',10,15],['Pezinho',10,15],['Lavar',5,15],['Secar',5,15],['Tintura / pigmentação no cabelo',30,45],['Tintura / pigmentação na barba',15,30],['Preenchimento com fibra capilar',10,15],['Alisamento americano',40,60],['Luzes',80,120],['Platinado',100,120],['Progressiva',100,120],['Hidratação',20,30]];
 const BARB=[{id:'d',n:'Di',d:'Denilson, o Di da casa'},{id:'g',n:'Gabriel',d:'Corte caprichado'}];
 /* ter-sáb 08:00-21:30, domingo 09:00-14:00, segunda fechado */
 const HRS={0:[9,14],1:null,2:[8,21.5],3:[8,21.5],4:[8,21.5],5:[8,21.5],6:[8,21.5]};
@@ -154,7 +154,7 @@ function pushNotify(b){
  const p=$('#push');p.classList.add('show');clearTimeout(p._t);p._t=setTimeout(()=>p.classList.remove('show'),6500);
  p.onclick=()=>p.classList.remove('show');
 }
-const KEY='demo_digaragem_v1';
+const KEY='demo_digaragem_v2';
 const $=s=>document.querySelector(s);
 const pad=n=>String(n).padStart(2,'0');
 const ymd=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
@@ -169,7 +169,7 @@ function seed(){
  const b=[];const names=['Lucas','Matheus','Felipe','Bruno','Diego','Rafael','Thiago','Gustavo','Pedro','André'];
  let k=0;const now=new Date();
  for(let i=0;i<5;i++){const d=new Date(now);d.setDate(d.getDate()+i);if(!HRS[d.getDay()])continue;const ds=ymd(d);
-  [['d',11,0],['d',14,1],['d',17,3],['g',10,0],['g',15,1],['g',18,0]].forEach(([bid,h,s],j)=>{if((i+j)%3===0)return;b.push({id:'S'+(k++),code:rc(),bar:bid,date:ds,t:toT((h+(HRS[d.getDay()][0]>h?1:0))*60),sv:s,name:names[(i*3+j)%names.length],tel:'(11) 9'+(1000+((i*7+j*13)%9000))+'-'+(1000+((i*11+j)%9000)),demo:1})})}
+  [['d',11,0],['d',14,1],['d',17,6],['g',10,0],['g',15,1],['g',18,0]].forEach(([bid,h,s],j)=>{if((i+j)%3===0)return;b.push({id:'S'+(k++),code:rc(),bar:bid,date:ds,t:toT((h+(HRS[d.getDay()][0]>h?1:0))*60),sv:s,name:names[(i*3+j)%names.length],tel:'(11) 9'+(1000+((i*7+j*13)%9000))+'-'+(1000+((i*11+j)%9000)),demo:1})})}
  return {book:b,blocks:[]}
 }
 function rc(){const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<5;i++)s+=c[Math.floor(Math.random()*c.length)];return s}
