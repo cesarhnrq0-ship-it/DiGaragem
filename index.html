@@ -43,8 +43,17 @@ section{padding:110px 0}
 .links a:hover{color:var(--gold)}
 .nav .btn{padding:11px 20px;font-size:14px}
 
+.logo{object-fit:cover;border-radius:50%;background:#fff;padding:0}
+/* galeria */
+.gal{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:44px}
+.gal figure{margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);aspect-ratio:3/4;background:var(--card)}
+.gal img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.gal figure:hover img{transform:scale(1.05)}
+.space{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px}
+.space img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:16px;border:1px solid var(--line);display:block}
+@media(max-width:900px){.gal{grid-template-columns:repeat(2,1fr)}}
 /* hero */
-.hero{min-height:100vh;display:flex;align-items:center;position:relative;padding:130px 0 80px;overflow:hidden}
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;padding:130px 0 80px;overflow:hidden;background:linear-gradient(90deg,rgba(11,11,12,.97) 30%,rgba(11,11,12,.78)),url(img/fachada.jpg) center/cover}
 .hero:before{content:"";position:absolute;inset:0;background:radial-gradient(800px 500px at 80% 30%,rgba(255,122,26,.16),transparent 60%),radial-gradient(600px 400px at 10% 90%,rgba(255,122,26,.07),transparent 60%)}
 .big01{position:absolute;right:-3vw;top:50%;transform:translateY(-50%);font-family:Anton;font-size:clamp(260px,42vw,620px);line-height:.8;color:transparent;-webkit-text-stroke:2px rgba(255,122,26,.18);user-select:none;pointer-events:none}
 .hero .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1fr);}
@@ -169,8 +178,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 
 <header class="nav" id="nav">
  <div class="wrap">
-  <a href="#" class="brand"><div class="mark">DG</div><div><b>Di Garagem Barbearia</b><small>Cidade Tiradentes · SP</small></div></a>
-  <nav class="links"><a href="#servicos">Serviços</a><a href="#experiencia">Experiência</a><a href="#barbeiros">Barbeiros</a><a href="#avaliacoes">Avaliações</a><a href="#visite">Localização</a></nav>
+  <a href="#" class="brand"><img class="mark logo" src="img/logo.png" alt="Logo Barbearia Di Garagem" width="46" height="46"><div><b>Di Garagem Barbearia</b><small>Cidade Tiradentes · SP</small></div></a>
+  <nav class="links"><a href="#servicos">Serviços</a><a href="#cortes">Cortes</a><a href="#experiencia">Experiência</a><a href="#barbeiros">Barbeiros</a><a href="#avaliacoes">Avaliações</a><a href="#visite">Localização</a></nav>
   <a class="btn btn-gold" href="agenda.html">Agendar</a>
  </div>
 </header>
@@ -210,6 +219,22 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
  </div>
 </section>
 
+<section id="cortes">
+ <div class="wrap">
+  <div class="rev"><span class="tag">Trabalhos</span><h2>Cortes feitos<br><em>aqui</em></h2></div>
+  <div class="gal">
+   <figure class="rev"><img src="img/corte-1.jpg" alt="Corte feito na Di Garagem" loading="lazy"></figure>
+   <figure class="rev"><img src="img/corte-2.jpg" alt="Corte feito na Di Garagem" loading="lazy"></figure>
+   <figure class="rev"><img src="img/corte-3.jpg" alt="Corte feito na Di Garagem" loading="lazy"></figure>
+   <figure class="rev"><img src="img/corte-4.jpg" alt="Corte feito na Di Garagem" loading="lazy"></figure>
+   <figure class="rev"><img src="img/corte-5.jpg" alt="Corte feito na Di Garagem" loading="lazy"></figure>
+   <figure class="rev"><img src="img/corte-6.jpg" alt="Corte feito na Di Garagem" loading="lazy"></figure>
+   <figure class="rev"><img src="img/corte-7.jpg" alt="Corte feito na Di Garagem" loading="lazy"></figure>
+   <figure class="rev"><img src="img/corte-8.jpg" alt="Corte feito na Di Garagem" loading="lazy"></figure>
+  </div>
+ </div>
+</section>
+
 <section class="exp" id="experiencia">
  <div class="wrap exgrid">
   <div class="rev">
@@ -217,6 +242,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
    <h2>Mais que um corte,<br>um <em>momento seu</em></h2>
    <p class="lead">Barbearia humana, onde cada cliente é atendido com atenção. Música boa, ambiente acolhedor e barbeiro gente boa: é assim que os clientes descrevem a Di Garagem.</p>
    <div class="cta"><a class="btn btn-gold" href="agenda.html">Garantir meu horário</a></div>
+   <div class="space"><img src="img/espaco-1.jpg" alt="Espaço da Di Garagem" loading="lazy"><img src="img/espaco-2.jpg" alt="Cliente sendo atendido na Di Garagem" loading="lazy"></div>
   </div>
   <div class="amen rev">
    <div class="am"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><b>Som ambiente</b><span>Música boa enquanto você espera</span></div>
