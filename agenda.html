@@ -250,12 +250,13 @@ function renderCli(){
 /* Link do WhatsApp do barbeiro com o agendamento já escrito (usa o número da barbearia se o barbeiro não tiver um próprio) */
 function zapLink(bn,d){
  const b=BARB.find(x=>x.id===st.bar);const num=(b&&b.wa)||SHOP_WA;
- const msg='Olá! Acabei de agendar pelo site 💈\n\n'+
-  '👤 Nome: '+st.name+'\n'+
-  '✂️ Serviço: '+SV[st.sv][0]+' (R$ '+SV[st.sv][1]+')\n'+
-  '💈 Barbeiro: '+bn+'\n'+
-  '📅 Dia: '+WD[d.getDay()]+', '+pad(d.getDate())+'/'+pad(d.getMonth()+1)+' às '+st.t+'\n'+
-  '🔑 Código: '+st.code+'\n\nPode confirmar?';
+ /* sem emojis: o wa.me estraga emoji em alguns aparelhos (vira "?") */
+ const msg='Olá! Acabei de agendar pelo site:\n\n'+
+  '*Nome:* '+st.name+'\n'+
+  '*Serviço:* '+SV[st.sv][0]+' (R$ '+SV[st.sv][1]+')\n'+
+  '*Barbeiro:* '+bn+'\n'+
+  '*Dia:* '+WD[d.getDay()]+', '+pad(d.getDate())+'/'+pad(d.getMonth()+1)+' às '+st.t+'\n'+
+  '*Código:* '+st.code+'\n\nPode confirmar?';
  return 'https://wa.me/'+num+'?text='+encodeURIComponent(msg);
 }
 function cancelFlow(){
